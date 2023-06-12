@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 
 const BASE_URL = "https://images.ctfassets.net";
 
-function handler(req: Request): Response {
+export function handler(req: Request): Response {
   const requestedUrl = new URL(req.url);
 
   if (requestedUrl.searchParams.has("fm")) {
@@ -26,7 +26,9 @@ function handler(req: Request): Response {
   return redirectToContentfulOrigin(requestedUrl);
 }
 
-serve(handler, { port: 1324 });
+if (import.meta.main) {
+  serve(handler, { port: 1324 });
+}
 
 function redirectToContentfulOrigin(url: URL) {
   const contentfulUrl = new URL(url.pathname + url.search, BASE_URL);
