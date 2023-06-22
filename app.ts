@@ -7,19 +7,19 @@ export function handler(req: Request): Response {
 
   if (requestedUrl.searchParams.has("fm")) {
     // Redirect as is if format is already specified
-    return redirectToContentfulOrigin(requestedUrl)
+    return redirectToContentfulOrigin(requestedUrl);
   }
 
-  const acceptHeader = req.headers.get("Accept")
+  const acceptHeader = req.headers.get("Accept");
 
-  if (acceptHeader?.includes('image/avif')) {
-    requestedUrl.searchParams.set("fm", 'avif')
-    return redirectToContentfulOrigin(requestedUrl)
+  if (acceptHeader?.includes("image/avif")) {
+    requestedUrl.searchParams.set("fm", "avif");
+    return redirectToContentfulOrigin(requestedUrl);
   }
 
-  if (acceptHeader?.includes('image/webp')) {
-    requestedUrl.searchParams.set("fm", "webp")
-    return redirectToContentfulOrigin(requestedUrl)
+  if (acceptHeader?.includes("image/webp")) {
+    requestedUrl.searchParams.set("fm", "webp");
+    return redirectToContentfulOrigin(requestedUrl);
   }
 
   // Pass through if the requester doesn't accept avif or webp
@@ -32,6 +32,6 @@ if (import.meta.main) {
 
 function redirectToContentfulOrigin(url: URL) {
   const contentfulUrl = new URL(url.pathname + url.search, BASE_URL);
-  
+
   return Response.redirect(contentfulUrl, 302);
 }
