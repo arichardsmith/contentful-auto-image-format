@@ -12,12 +12,17 @@ export function handler(req: Request): Response {
 
   const acceptHeader = req.headers.get("Accept");
 
-  if (acceptHeader?.includes("image/avif")) {
+  if (!acceptHeader) {
+    // Pass through if there is no accept header
+    return redirectToContentfulOrigin(requestedUrl);
+  }
+
+  if (acceptHeader.includes("image/avif")) {
     requestedUrl.searchParams.set("fm", "avif");
     return redirectToContentfulOrigin(requestedUrl);
   }
 
-  if (acceptHeader?.includes("image/webp")) {
+  if (acceptHeader.includes("image/webp")) {
     requestedUrl.searchParams.set("fm", "webp");
     return redirectToContentfulOrigin(requestedUrl);
   }
