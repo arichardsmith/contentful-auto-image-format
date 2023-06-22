@@ -32,7 +32,11 @@ export function handler(req: Request): Response {
 }
 
 if (import.meta.main) {
-  serve(handler, { port: 1324 });
+  // Allow port to be set by an env var.
+  const envPort = Deno.env.get("DENO_PORT");
+  const port = envPort ? parseInt(envPort) : 8000;
+  
+  serve(handler, { port });
 }
 
 function redirectToContentfulOrigin(url: URL) {
